@@ -5,7 +5,7 @@ import logging
 # Logging setup to track file creation
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s]: %(message)s:')
 
-project_name = "text-insight-mlops-pipeline"
+project_name = "TextInsightMlopsPipeline" # while naming dont use any extra keywords
 
 list_of_files = [
     ".github/workflows/.gitkeep",
