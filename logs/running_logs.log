@@ -29,3 +29,76 @@ x==========x]
 [2026-03-28 23:28:16,852: INFO: main: >>>>>>> Stage Data Ingestion Stage completed <<<<<<<
 
 x==========x]
+[2026-03-28 23:54:44,530: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-28 23:54:44,537: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-28 23:54:44,540: INFO: common: created directory at: artifacts]
+[2026-03-28 23:54:44,542: INFO: common: created directory at: artifacts/data_validation]
+[2026-03-28 23:54:56,584: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-28 23:54:56,586: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-28 23:54:56,588: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-28 23:54:56,588: INFO: common: created directory at: artifacts]
+[2026-03-28 23:54:56,589: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-28 23:55:03,350: INFO: data_ingestion: File is downloaded]
+[2026-03-28 23:55:03,498: INFO: main: >>>>>>> Stage Data Ingestion Stage completed <<<<<<<
+
+x==========x]
+[2026-03-28 23:55:10,400: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-28 23:55:10,404: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-28 23:55:10,406: INFO: common: created directory at: artifacts]
+[2026-03-28 23:55:10,407: INFO: common: created directory at: artifacts/data_validation]
+[2026-03-29 00:02:48,474: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-29 00:02:48,477: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 00:02:48,478: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 00:02:48,479: INFO: common: created directory at: artifacts]
+[2026-03-29 00:02:48,479: ERROR: main: 'ConfigurationManager' object has no attribute 'get_data_ingestion_config']
+Traceback (most recent call last):
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\main.py", line 11, in <module>
+    data_ingestion_pipeline.initiate_data_ingestion()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\src\TextInsightMlopsPipeline\pipeline\stage_01_data_ingestion.py", line 12, in initiate_data_ingestion
+    data_ingestion_config = config.get_data_ingestion_config()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConfigurationManager' object has no attribute 'get_data_ingestion_config'. Did you mean: 'get_data_validation_config'?
+[2026-03-29 00:07:06,500: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-29 00:07:06,503: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 00:07:06,505: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 00:07:06,506: INFO: common: created directory at: artifacts]
+[2026-03-29 00:07:06,507: ERROR: main: 'ConfigurationManager' object has no attribute 'get_data_ingestion_config']
+Traceback (most recent call last):
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\main.py", line 11, in <module>
+    data_ingestion_pipeline.initiate_data_ingestion()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\src\TextInsightMlopsPipeline\pipeline\stage_01_data_ingestion.py", line 12, in initiate_data_ingestion
+    data_ingestion_config = config.get_data_ingestion_config()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConfigurationManager' object has no attribute 'get_data_ingestion_config'. Did you mean: 'get_data_validation_config'?
+[2026-03-29 00:08:30,062: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-29 00:08:30,066: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 00:08:30,067: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 00:08:30,068: INFO: common: created directory at: artifacts]
+[2026-03-29 00:08:30,068: ERROR: main: 'ConfigurationManager' object has no attribute 'get_data_ingestion_config']
+Traceback (most recent call last):
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\main.py", line 11, in <module>
+    data_ingestion_pipeline.initiate_data_ingestion()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\src\TextInsightMlopsPipeline\pipeline\stage_01_data_ingestion.py", line 12, in initiate_data_ingestion
+    data_ingestion_config = config.get_data_ingestion_config()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConfigurationManager' object has no attribute 'get_data_ingestion_config'. Did you mean: 'get_data_validation_config'?
+[2026-03-29 00:16:40,064: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-29 00:16:40,068: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 00:16:40,074: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 00:16:40,075: INFO: common: created directory at: artifacts]
+[2026-03-29 00:16:40,076: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-29 00:16:40,076: INFO: data_ingestion: File already exits]
+[2026-03-29 00:16:40,230: INFO: main: >>>>>>> Stage Data Ingestion Stage completed <<<<<<<
+
+x==========x]
+[2026-03-29 00:16:40,230: INFO: main: >>>>>>> Stage Data Validation Stage started <<<<<<<]
+[2026-03-29 00:16:40,232: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 00:16:40,233: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 00:16:40,234: INFO: common: created directory at: artifacts]
+[2026-03-29 00:16:40,234: INFO: common: created directory at: artifacts/data_validation]
+[2026-03-29 00:16:40,237: INFO: main: >>>>>>> Stage Data Validation Stage completed <<<<<<<
+
+x==========x]
