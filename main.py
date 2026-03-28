@@ -2,7 +2,7 @@ from src.TextInsightMlopsPipeline.logging import logger
 
 from src.TextInsightMlopsPipeline.pipeline.stage_01_data_ingestion import DataIngestionTrainingPipeline
 from src.TextInsightMlopsPipeline.pipeline.stage_02_data_validation import DataValidationTrainingPipeline
-
+from src.TextInsightMlopsPipeline.pipeline.stage_03_data_transformation import DataTransformationTrainingPipeline
 
 STAGE_NAME = "Data Ingestion Stage"
 try:
@@ -23,3 +23,15 @@ try:
 except Exception as e:
     logger.exception(e)
     raise e
+
+
+STAGE_NAME = "Data Transformation Stage"
+try:
+    logger.info(f">>>>>>> Stage {STAGE_NAME} started <<<<<<<")
+    from src.TextInsightMlopsPipeline.pipeline.stage_03_data_transformation import DataTransformationTrainingPipeline
+    data_transformation_pipeline = DataTransformationTrainingPipeline()
+    data_transformation_pipeline.initiate_data_transformation()
+    logger.info(f">>>>>>> Stage {STAGE_NAME} completed <<<<<<<\n    \nx==========x")
+except Exception as e:   
+    logger.exception(e)
+    raise e 

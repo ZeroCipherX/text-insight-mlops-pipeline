@@ -1,0 +1,216 @@
+[2026-03-27 00:59:19,774: INFO: main: Welcome to our custom logging]
+[2026-03-27 00:59:41,798: INFO: main: Welcome to our custom logging]
+[2026-03-27 01:00:21,057: INFO: main: Welcome to our custom logging]
+[2026-03-28 22:41:35,642: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-28 22:41:35,654: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-28 22:42:41,533: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-28 22:44:07,631: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-28 22:44:07,634: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-28 22:44:31,001: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-28 22:44:31,005: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-28 22:44:31,011: INFO: common: created directory at: artifacts]
+[2026-03-28 22:44:31,013: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-28 22:44:37,360: INFO: 2293009439: File is downloaded]
+[2026-03-28 23:27:34,109: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-28 23:27:34,113: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-28 23:27:34,119: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-28 23:27:34,120: INFO: common: created directory at: artifacts]
+[2026-03-28 23:27:34,121: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-28 23:27:34,121: INFO: data_ingestion: File already exits]
+[2026-03-28 23:27:34,346: INFO: main: >>>>>>> Stage Data Ingestion Stage completed <<<<<<<
+
+x==========x]
+[2026-03-28 23:27:52,816: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-28 23:27:52,818: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-28 23:27:52,819: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-28 23:27:52,820: INFO: common: created directory at: artifacts]
+[2026-03-28 23:27:52,820: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-28 23:28:16,721: INFO: data_ingestion: File is downloaded]
+[2026-03-28 23:28:16,852: INFO: main: >>>>>>> Stage Data Ingestion Stage completed <<<<<<<
+
+x==========x]
+[2026-03-28 23:54:44,530: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-28 23:54:44,537: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-28 23:54:44,540: INFO: common: created directory at: artifacts]
+[2026-03-28 23:54:44,542: INFO: common: created directory at: artifacts/data_validation]
+[2026-03-28 23:54:56,584: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-28 23:54:56,586: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-28 23:54:56,588: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-28 23:54:56,588: INFO: common: created directory at: artifacts]
+[2026-03-28 23:54:56,589: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-28 23:55:03,350: INFO: data_ingestion: File is downloaded]
+[2026-03-28 23:55:03,498: INFO: main: >>>>>>> Stage Data Ingestion Stage completed <<<<<<<
+
+x==========x]
+[2026-03-28 23:55:10,400: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-28 23:55:10,404: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-28 23:55:10,406: INFO: common: created directory at: artifacts]
+[2026-03-28 23:55:10,407: INFO: common: created directory at: artifacts/data_validation]
+[2026-03-29 00:02:48,474: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-29 00:02:48,477: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 00:02:48,478: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 00:02:48,479: INFO: common: created directory at: artifacts]
+[2026-03-29 00:02:48,479: ERROR: main: 'ConfigurationManager' object has no attribute 'get_data_ingestion_config']
+Traceback (most recent call last):
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\main.py", line 11, in <module>
+    data_ingestion_pipeline.initiate_data_ingestion()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\src\TextInsightMlopsPipeline\pipeline\stage_01_data_ingestion.py", line 12, in initiate_data_ingestion
+    data_ingestion_config = config.get_data_ingestion_config()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConfigurationManager' object has no attribute 'get_data_ingestion_config'. Did you mean: 'get_data_validation_config'?
+[2026-03-29 00:07:06,500: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-29 00:07:06,503: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 00:07:06,505: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 00:07:06,506: INFO: common: created directory at: artifacts]
+[2026-03-29 00:07:06,507: ERROR: main: 'ConfigurationManager' object has no attribute 'get_data_ingestion_config']
+Traceback (most recent call last):
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\main.py", line 11, in <module>
+    data_ingestion_pipeline.initiate_data_ingestion()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\src\TextInsightMlopsPipeline\pipeline\stage_01_data_ingestion.py", line 12, in initiate_data_ingestion
+    data_ingestion_config = config.get_data_ingestion_config()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConfigurationManager' object has no attribute 'get_data_ingestion_config'. Did you mean: 'get_data_validation_config'?
+[2026-03-29 00:08:30,062: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-29 00:08:30,066: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 00:08:30,067: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 00:08:30,068: INFO: common: created directory at: artifacts]
+[2026-03-29 00:08:30,068: ERROR: main: 'ConfigurationManager' object has no attribute 'get_data_ingestion_config']
+Traceback (most recent call last):
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\main.py", line 11, in <module>
+    data_ingestion_pipeline.initiate_data_ingestion()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\src\TextInsightMlopsPipeline\pipeline\stage_01_data_ingestion.py", line 12, in initiate_data_ingestion
+    data_ingestion_config = config.get_data_ingestion_config()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConfigurationManager' object has no attribute 'get_data_ingestion_config'. Did you mean: 'get_data_validation_config'?
+[2026-03-29 00:16:40,064: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-29 00:16:40,068: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 00:16:40,074: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 00:16:40,075: INFO: common: created directory at: artifacts]
+[2026-03-29 00:16:40,076: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-29 00:16:40,076: INFO: data_ingestion: File already exits]
+[2026-03-29 00:16:40,230: INFO: main: >>>>>>> Stage Data Ingestion Stage completed <<<<<<<
+
+x==========x]
+[2026-03-29 00:16:40,230: INFO: main: >>>>>>> Stage Data Validation Stage started <<<<<<<]
+[2026-03-29 00:16:40,232: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 00:16:40,233: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 00:16:40,234: INFO: common: created directory at: artifacts]
+[2026-03-29 00:16:40,234: INFO: common: created directory at: artifacts/data_validation]
+[2026-03-29 00:16:40,237: INFO: main: >>>>>>> Stage Data Validation Stage completed <<<<<<<
+
+x==========x]
+[2026-03-29 01:23:33,252: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:23:33,270: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:23:33,275: INFO: common: created directory at: artifacts]
+[2026-03-29 01:23:33,278: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:24:01,546: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:24:01,550: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:24:01,552: INFO: common: created directory at: artifacts]
+[2026-03-29 01:24:01,554: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:26:21,754: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:26:21,758: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:26:21,759: INFO: common: created directory at: artifacts]
+[2026-03-29 01:26:21,761: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:27:16,107: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:27:16,110: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:27:16,112: INFO: common: created directory at: artifacts]
+[2026-03-29 01:27:16,114: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:28:29,939: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:28:29,942: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:28:29,943: INFO: common: created directory at: artifacts]
+[2026-03-29 01:28:29,945: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:28:39,777: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:28:39,780: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:28:39,783: INFO: common: created directory at: artifacts]
+[2026-03-29 01:28:39,785: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:29:42,240: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:29:42,243: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:29:42,245: INFO: common: created directory at: artifacts]
+[2026-03-29 01:29:42,247: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:30:39,819: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:30:39,822: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:30:39,824: INFO: common: created directory at: artifacts]
+[2026-03-29 01:30:39,825: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:31:11,163: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:31:11,167: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:31:11,169: INFO: common: created directory at: artifacts]
+[2026-03-29 01:31:11,171: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:32:18,718: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:32:18,721: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:32:18,724: INFO: common: created directory at: artifacts]
+[2026-03-29 01:32:18,726: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:32:37,566: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:32:37,569: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:32:37,570: INFO: common: created directory at: artifacts]
+[2026-03-29 01:32:37,572: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:33:50,373: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:33:50,376: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:33:50,378: INFO: common: created directory at: artifacts]
+[2026-03-29 01:33:50,380: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:35:34,591: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:35:34,594: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:35:34,595: INFO: common: created directory at: artifacts]
+[2026-03-29 01:35:34,597: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:35:55,783: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:35:55,786: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:35:55,788: INFO: common: created directory at: artifacts]
+[2026-03-29 01:35:55,790: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:37:24,430: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:37:24,434: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:37:24,437: INFO: common: created directory at: artifacts]
+[2026-03-29 01:37:24,440: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:46:26,731: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-29 01:46:26,736: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:46:26,739: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:46:26,740: INFO: common: created directory at: artifacts]
+[2026-03-29 01:46:26,741: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-29 01:46:26,741: INFO: data_ingestion: File already exits]
+[2026-03-29 01:46:26,897: INFO: main: >>>>>>> Stage Data Ingestion Stage completed <<<<<<<
+
+x==========x]
+[2026-03-29 01:46:26,897: INFO: main: >>>>>>> Stage Data Validation Stage started <<<<<<<]
+[2026-03-29 01:46:26,900: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:46:26,901: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:46:26,902: INFO: common: created directory at: artifacts]
+[2026-03-29 01:46:26,903: INFO: common: created directory at: artifacts/data_validation]
+[2026-03-29 01:46:26,906: INFO: main: >>>>>>> Stage Data Validation Stage completed <<<<<<<
+
+x==========x]
+[2026-03-29 01:46:26,906: INFO: main: >>>>>>> Stage Data Transformation Stage started <<<<<<<]
+[2026-03-29 01:46:26,915: ERROR: main: No module named 'TextInsightMlopsPipeline']
+Traceback (most recent call last):
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\main.py", line 31, in <module>
+    from src.TextInsightMlopsPipeline.pipeline.stage_03_data_transformation import DataTransformationTrainingPipeline
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\src\TextInsightMlopsPipeline\pipeline\stage_03_data_transformation.py", line 3, in <module>
+    from src.TextInsightMlopsPipeline.components.data_transformation import DataTransformation
+  File "C:\Users\saqib\OneDrive\Desktop\text-insight-mlops-pipeline\src\TextInsightMlopsPipeline\components\data_transformation.py", line 2, in <module>
+    from TextInsightMlopsPipeline.entity import DataTransformationConfig
+ModuleNotFoundError: No module named 'TextInsightMlopsPipeline'
+[2026-03-29 01:48:23,671: INFO: main: >>>>>>> Stage Data Ingestion Stage started <<<<<<<]
+[2026-03-29 01:48:23,674: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:48:23,678: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:48:23,679: INFO: common: created directory at: artifacts]
+[2026-03-29 01:48:23,680: INFO: common: created directory at: artifacts/data_ingestion]
+[2026-03-29 01:48:23,680: INFO: data_ingestion: File already exits]
+[2026-03-29 01:48:23,894: INFO: main: >>>>>>> Stage Data Ingestion Stage completed <<<<<<<
+
+x==========x]
+[2026-03-29 01:48:23,895: INFO: main: >>>>>>> Stage Data Validation Stage started <<<<<<<]
+[2026-03-29 01:48:23,897: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:48:23,898: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:48:23,898: INFO: common: created directory at: artifacts]
+[2026-03-29 01:48:23,899: INFO: common: created directory at: artifacts/data_validation]
+[2026-03-29 01:48:23,901: INFO: main: >>>>>>> Stage Data Validation Stage completed <<<<<<<
+
+x==========x]
+[2026-03-29 01:48:23,902: INFO: main: >>>>>>> Stage Data Transformation Stage started <<<<<<<]
+[2026-03-29 01:48:23,904: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2026-03-29 01:48:23,905: INFO: common: yaml file: params.yaml loaded successfully]
+[2026-03-29 01:48:23,905: INFO: common: created directory at: artifacts]
+[2026-03-29 01:48:23,906: INFO: common: created directory at: artifacts/data_transformation]
+[2026-03-29 01:48:35,893: INFO: main: >>>>>>> Stage Data Transformation Stage completed <<<<<<<
+    
+x==========x]
