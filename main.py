@@ -1,3 +1,4 @@
+from src.TextInsightMlopsPipeline.pipeline.stage_05_model_evaluation import ModelEvaluationTrainerPipeline
 from src.TextInsightMlopsPipeline.logging import logger
 from src.TextInsightMlopsPipeline.pipeline.stage_01_data_ingestion import DataIngestionTrainingPipeline
 from src.TextInsightMlopsPipeline.pipeline.stage_02_data_validation import DataValidationTrainingPipeline
@@ -47,6 +48,17 @@ try:
         model_trainer_pipeline = ModelTrainerTrainingPipeline()
         model_trainer_pipeline.initiate_model_trainer()
         logger.info(f">>>>>>> Stage {STAGE_NAME} completed <<<<<<<\n\nx==========x")
+except Exception as e:
+    logger.exception(e)
+    raise e
+
+
+STAGE_NAME = "Model Evaluation Stage"
+try:
+    logger.info(f">>>>>>> Stage {STAGE_NAME} started <<<<<<<")
+    model_evaluation_pipeline = ModelEvaluationTrainerPipeline()
+    model_evaluation_pipeline.initiate_model_evaluation()
+    logger.info(f">>>>>>> Stage {STAGE_NAME} completed <<<<<<<\n\nx==========x")
 except Exception as e:
     logger.exception(e)
     raise e
