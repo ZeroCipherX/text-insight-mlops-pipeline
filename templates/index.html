@@ -1,783 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NeuralBrief — AI Text Summarization</title>
-  <meta name="description" content="PEGASUS fine-tuned on SAMSum. Generate, summarize and evaluate with Mistral AI."/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuralBrief + Mistral AI Intelligence</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@800&display=swap" rel="stylesheet">
 
-    :root {
-      --bg:        #0f1117;
-      --bg1:       #13151f;
-      --bg2:       #181c28;
-      --surface:   #1d2133;
-      --surface2:  #232842;
-      --surface3:  #2c3354;
-      --border:    rgba(255,255,255,0.07);
-      --border2:   rgba(255,255,255,0.12);
-      --border3:   rgba(255,255,255,0.18);
-      --p:         #7b6ef6;
-      --p2:        #9d93f8;
-      --p3:        #c4bfff;
-      --p-glow:    rgba(123,110,246,0.15);
-      --p-glow2:   rgba(123,110,246,0.25);
-      --teal:      #2dd4bf;
-      --teal-glow: rgba(45,212,191,0.1);
-      --emerald:   #34d399;
-      --em-bg:     rgba(52,211,153,0.08);
-      --em-border: rgba(52,211,153,0.2);
-      --rose:      #fb7185;
-      --amber:     #fbbf24;
-      --text:      #f8f8ff;
-      --text2:     #c0bed8;
-      --text3:     #8885a8;
-      --muted:     #55527a;
-      --r:         10px;
-      --r-sm:      7px;
-      --r-xs:      5px;
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            brand: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            obsidian: '#050505',
+            panel: '#0C0C0E',
+            accent: '#8B5CF6',
+            cyan: '#22D3EE',
+          }
+        }
+      }
     }
+  </script>
 
-    html, body { height: 100%; overflow: hidden; }
-
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+  <style>
+    /* Prevent any page scrolling */
+    html, body { 
+      height: 100vh; 
+      width: 100vw;
+      overflow: hidden; 
+      background-color: #050505;
+      color: #FFFFFF;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ────────────────────────── NOISE TEXTURE ────────────────────────── */
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.025;
-      pointer-events: none;
-      z-index: 9999;
+    /* Subtle background texture */
+    body::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 50% -20%, #1e1b4b 0%, #050505 80%);
+      z-index: -1;
     }
 
-    /* ────────────────────────── GRADIENT BG ────────────────────────── */
-    .bg-gradient {
-      position: fixed; inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 10% 0%, rgba(123,110,246,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 90% 100%, rgba(45,212,191,0.08) 0%, transparent 60%),
-        var(--bg);
-      pointer-events: none; z-index: 0;
+    .glass-border {
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* ────────────────────────── TOP LINE ────────────────────────── */
-    .topline {
-      position: fixed; top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent 0%, var(--p) 30%, var(--teal) 70%, transparent 100%);
-      z-index: 100; opacity: 0.8;
+    .input-focus:focus {
+      outline: none;
+      border-color: #8B5CF6;
+      box-shadow: 0 0 0 1px #8B5CF6;
     }
 
-    /* ────────────────────────── APP SHELL ────────────────────────── */
-    .app {
-      position: relative; z-index: 1;
-      display: grid;
-      grid-template-rows: auto auto 1fr auto;
-      height: 100vh;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 28px;
-    }
+    /* Sharp custom scrollbars for internal areas */
+    .custom-scroll::-webkit-scrollbar { width: 4px; }
+    .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #262626; border-radius: 10px; }
+    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #8B5CF6; }
 
-    /* ────────────────────────── NAVBAR ────────────────────────── */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 0 14px;
-      border-bottom: 1px solid var(--border);
+    .btn-glow:hover {
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+      transform: translateY(-1px);
     }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-mark {
-      width: 42px; height: 42px;
-      border-radius: 11px;
-      background: linear-gradient(140deg, var(--p), var(--teal));
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 16px; color: #fff;
-      position: relative;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.12) inset,
-        0 4px 16px rgba(123,110,246,0.3);
-      flex-shrink: 0;
-    }
-
-    .logo-mark::before {
-      content: '';
-      position: absolute; inset: -1px;
-      border-radius: 12px;
-      padding: 1px;
-      background: linear-gradient(140deg, rgba(123,110,246,0.6), rgba(45,212,191,0.6));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-    }
-
-    .brand-text h1 {
-      font-size: 19px;
-      font-weight: 800;
-      letter-spacing: -0.035em;
-      background: linear-gradient(135deg, #fff 50%, var(--p2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      line-height: 1;
-    }
-    .brand-text .sub {
-      font-size: 10.5px;
-      color: var(--muted);
-      margin-top: 2px;
-      letter-spacing: 0.02em;
-    }
-
-    .nav-pills {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .pill {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 5px 10px;
-      font-size: 10.5px;
-      font-weight: 600;
-      color: var(--text3);
-      display: flex; align-items: center; gap: 5px;
-    }
-    .pill strong { color: var(--p2); font-weight: 700; }
-    .pill-model {
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--teal);
-      background: var(--teal-glow);
-      border-color: rgba(45,212,191,0.15);
-      font-size: 10px;
-    }
-    .pill-live {
-      color: var(--emerald);
-      background: var(--em-bg);
-      border-color: var(--em-border);
-    }
-    .pill-live::before {
-      content: '';
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--emerald);
-      animation: blink 2s ease-in-out infinite;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-    /* ────────────────────────── STAT BAR ────────────────────────── */
-    .stat-bar {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-      padding: 10px 0;
-    }
-
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 11px 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .stat-card:hover { border-color: var(--border2); background: var(--surface2); }
-
-    .stat-icon {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px; flex-shrink: 0;
-    }
-    .si-p { background: var(--p-glow); border: 1px solid rgba(123,110,246,0.2); }
-    .si-t { background: var(--teal-glow); border: 1px solid rgba(45,212,191,0.2); }
-    .si-e { background: var(--em-bg); border: 1px solid var(--em-border); }
-
-    .stat-info { min-width: 0; }
-    .stat-title {
-      font-size: 9.5px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--muted); margin-bottom: 3px;
-    }
-    .stat-desc { font-size: 12px; line-height: 1.4; color: var(--text3); }
-    .stat-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-    .stag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      background: var(--surface3);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 2px 7px;
-      color: var(--text3);
-      transition: all 0.15s;
-    }
-    .stag:hover { border-color: var(--p); color: var(--p2); background: var(--p-glow); }
-
-    /* ────────────────────────── WORKSPACE ────────────────────────── */
-    .workspace {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      min-height: 0;
-    }
-
-    .pane {
-      background: var(--bg1);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      display: flex; flex-direction: column;
-      overflow: hidden;
-      transition: border-color 0.2s;
-    }
-    .pane:focus-within { border-color: var(--border2); }
-
-    .pane-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 9px 14px;
-      background: linear-gradient(180deg, var(--surface) 0%, var(--bg1) 100%);
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-
-    .ph-left {
-      display: flex; align-items: center; gap: 8px;
-    }
-
+    
     .status-dot {
-      width: 7px; height: 7px;
+      width: 6px; height: 6px;
       border-radius: 50%;
-    }
-    .sd-p { background: var(--p); box-shadow: 0 0 6px var(--p); }
-    .sd-t { background: var(--teal); box-shadow: 0 0 6px var(--teal); }
-
-    .pane-label {
-      font-size: 11.5px; font-weight: 700;
-      color: var(--text);
-    }
-    .pane-note {
-      font-size: 10px;
-      color: var(--muted);
-    }
-
-    .pane-body {
-      flex: 1;
-      display: flex; flex-direction: column;
-      padding: 12px 14px;
-      min-height: 0;
-    }
-
-    /* ────────────────────────── GEN BUTTONS ────────────────────────── */
-    .gen-label {
-      font-size: 9.5px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.1em;
-      color: var(--muted); margin-bottom: 7px;
-    }
-
-    .gen-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      margin-bottom: 10px;
-      flex-shrink: 0;
-    }
-
-    .gen-btn {
-      padding: 9px 6px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r-sm);
-      font-family: 'Inter', sans-serif;
-      font-size: 11.5px; font-weight: 600;
-      color: var(--text2);
-      cursor: pointer;
-      transition: all 0.18s;
-      display: flex; align-items: center; justify-content: center; gap: 5px;
-    }
-    .gen-btn:hover {
-      border-color: var(--p);
-      color: var(--p2);
-      background: var(--p-glow);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(123,110,246,0.15);
-    }
-    .gen-btn:active { transform: translateY(0); }
-
-    /* ────────────────────────── TEXTAREA ────────────────────────── */
-    textarea {
-      flex: 1;
-      min-height: 0;
-      width: 100%;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--r-sm);
-      color: var(--text);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12.5px; line-height: 1.75;
-      padding: 11px 13px;
-      resize: none; outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    textarea::placeholder { color: var(--muted); font-style: italic; }
-    textarea:focus { border-color: rgba(123,110,246,0.4); box-shadow: 0 0 0 3px var(--p-glow); }
-
-    /* ────────────────────────── INPUT FOOTER ────────────────────────── */
-    .input-foot {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 9px;
-      flex-shrink: 0;
-    }
-    .char-c {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px; color: var(--muted);
-    }
-    .char-c b { color: var(--text3); }
-
-    .cta-row { display: flex; gap: 6px; }
-
-    button { font-family: 'Inter', sans-serif; cursor: pointer; border: none; transition: all 0.18s; }
-
-    .btn-primary {
-      padding: 8px 20px;
-      background: linear-gradient(135deg, var(--p), var(--p) 60%, rgba(123,110,246,0.8));
-      color: #fff;
-      border-radius: var(--r-sm);
-      font-size: 12px; font-weight: 700;
-      letter-spacing: 0.01em;
-      box-shadow: 0 2px 8px rgba(123,110,246,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(123,110,246,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
-    }
-    .btn-primary:active { transform: translateY(0); }
-    .btn-primary.ld { pointer-events: none; opacity: 0.55; }
-
-    .btn-ghost {
-      padding: 8px 14px;
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: var(--r-sm);
-      color: var(--text3);
-      font-size: 11.5px; font-weight: 500;
-    }
-    .btn-ghost:hover { border-color: var(--border2); color: var(--text2); background: var(--surface); }
-
-    /* ────────────────────────── OUTPUT ────────────────────────── */
-    .out-box {
-      flex: 1;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--r-sm);
-      padding: 11px 13px;
-      position: relative;
-      overflow-y: auto;
-      min-height: 0;
-      transition: border-color 0.25s, box-shadow 0.25s;
-    }
-    .out-box.live {
-      border-color: var(--em-border);
-      box-shadow: 0 0 0 1px var(--em-border), inset 0 0 20px rgba(52,211,153,0.03);
-    }
-
-    .out-ph {
-      font-size: 12px; font-style: italic;
-      color: var(--muted);
-      display: flex; align-items: center; gap: 7px;
-    }
-    .out-ph::before { content: '›'; font-style: normal; color: var(--p2); font-size: 16px; }
-
-    .out-text {
-      display: none;
-      font-size: 13px; line-height: 1.85;
-      color: var(--text);
-      padding-right: 52px;
-    }
-    .out-text.show { display: block; animation: slideUp 0.35s ease; }
-
-    .copy-btn {
-      position: absolute;
-      top: 9px; right: 9px;
-      padding: 4px 10px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: var(--r-xs);
-      color: var(--text3);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      display: none; align-items: center; gap: 4px;
-    }
-    .copy-btn.show { display: flex; }
-    .copy-btn:hover { border-color: var(--p); color: var(--p2); background: var(--p-glow); }
-
-    /* ────────────────────────── CHIPS ────────────────────────── */
-    .chips { display: none; gap: 5px; margin-top: 8px; flex-shrink: 0; }
-    .chips.show { display: flex; animation: slideUp 0.2s ease; }
-    .chip {
-      display: flex; align-items: center; gap: 4px;
-      background: var(--em-bg);
-      border: 1px solid var(--em-border);
-      border-radius: 4px;
-      padding: 3px 8px;
-      font-size: 9.5px; font-weight: 600; color: var(--emerald);
-    }
-    .chip::before { content:''; width:4px; height:4px; border-radius:50%; background:var(--emerald); }
-
-    /* ────────────────────────── EVAL ────────────────────────── */
-    .btn-eval {
-      margin-top: 8px;
-      width: 100%;
-      padding: 9px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r-sm);
-      color: var(--p2);
-      font-size: 11.5px; font-weight: 700;
-      display: none; align-items: center; justify-content: center; gap: 6px;
-      flex-shrink: 0;
-      letter-spacing: 0.01em;
-    }
-    .btn-eval.show { display: flex; }
-    .btn-eval:hover { background: var(--p-glow); border-color: rgba(123,110,246,0.35); transform: translateY(-1px); }
-    .btn-eval::before { content: '✦'; font-size: 11px; }
-
-    .eval-result {
-      display: none;
-      margin-top: 8px;
-      background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
-      border: 1px solid var(--border);
-      border-left: 2px solid var(--p);
-      border-radius: var(--r-sm);
-      padding: 10px 13px;
-      flex-shrink: 0;
-    }
-    .eval-result.show { display: block; animation: slideUp 0.3s ease; }
-    .eval-label {
-      font-size: 9.5px; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.1em;
-      color: var(--p2); margin-bottom: 6px;
-      display: flex; align-items: center; gap: 5px;
-    }
-    .eval-label::before { content: '✦'; }
-    .eval-body { font-size: 11.5px; line-height: 1.65; color: var(--text2); }
-
-    /* ────────────────────────── SPINNER ────────────────────────── */
-    .spin {
-      display: inline-block;
-      width: 11px; height: 11px;
-      border: 2px solid rgba(255,255,255,0.15);
-      border-top-color: currentColor;
-      border-radius: 50%;
-      animation: rot 0.55s linear infinite;
-      vertical-align: middle;
-    }
-
-    /* ────────────────────────── STATUS BAR ────────────────────────── */
-    .status-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-top: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-    .sb-left, .sb-right {
-      display: flex; align-items: center; gap: 12px;
-      font-size: 10px; color: var(--muted);
-    }
-    .sb-item { display: flex; align-items: center; gap: 5px; }
-    .sb-dot { width: 4px; height: 4px; border-radius: 50%; }
-    .sb-dot-p { background: var(--p); }
-    .sb-dot-t { background: var(--teal); }
-    .sb-dot-e { background: var(--emerald); }
-    .sb-item span { color: var(--text3); }
-    .kb {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9.5px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 2px 6px;
-      color: var(--text3);
-    }
-
-    /* ────────────────────────── TOAST ────────────────────────── */
-    .toast {
-      position: fixed;
-      bottom: 18px; left: 50%;
-      transform: translateX(-50%) translateY(60px);
-      background: var(--surface3);
-      border: 1px solid var(--border2);
-      border-radius: var(--r-sm);
-      padding: 8px 16px;
-      font-size: 11.5px; font-weight: 600;
-      color: var(--text);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 1000; pointer-events: none;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.35);
-      display: flex; align-items: center; gap: 7px;
-    }
-    .toast::before { content: '✓'; color: var(--emerald); font-weight: 800; }
-    .toast.show { transform: translateX(-50%) translateY(0); }
-
-    /* ────────────────────────── ANIMATIONS ────────────────────────── */
-    @keyframes rot { to { transform: rotate(360deg); } }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    nav       { animation: slideUp 0.4s ease both; }
-    .stat-bar { animation: slideUp 0.45s ease 0.05s both; }
-    .workspace{ animation: slideUp 0.5s ease 0.1s both; }
-
-    /* ────────────────────────── RESPONSIVE ────────────────────────── */
-    @media (max-width: 860px) {
-      html, body { overflow: auto; }
-      .app { height: auto; min-height: 100vh; grid-template-rows: auto auto auto auto; }
-      .workspace { grid-template-columns: 1fr; }
-      .stat-bar { grid-template-columns: 1fr; }
-      .nav-pills { display: none; }
+      background: #10B981;
+      box-shadow: 0 0 10px #10B981;
     }
   </style>
 </head>
-<body>
 
-<div class="bg-gradient"></div>
-<div class="topline"></div>
+<body class="flex flex-col p-6 gap-4">
 
-<div class="app">
-
-  <!-- ═══════════ NAVBAR ═══════════ -->
-  <nav>
-    <div class="nav-brand">
-      <div class="logo-mark">NB</div>
-      <div class="brand-text">
-        <h1>NeuralBrief</h1>
-        <div class="sub">MLOps Text Summarization Pipeline</div>
+  <!-- 1. HEADER NAVIGATION -->
+  <header class="flex items-center justify-between glass-border bg-panel/50 p-4 rounded-2xl flex-shrink-0">
+    <div class="flex items-center gap-4">
+      <div class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center font-black text-white shadow-lg shadow-accent/20">NB</div>
+      <div>
+        <h1 class="text-lg font-brand font-extrabold tracking-tighter leading-none">NEURALBRIEF</h1>
+        <p class="text-[9px] text-zinc-500 uppercase tracking-[0.3em] font-bold mt-1">Intelligence Pipeline</p>
       </div>
     </div>
-    <div class="nav-pills">
-      <div class="pill pill-live">Online</div>
-      <div class="pill"><strong>0.44</strong>&nbsp;ROUGE-1</div>
-      <div class="pill"><strong>0.23</strong>&nbsp;ROUGE-2</div>
-      <div class="pill"><strong>14.7K</strong>&nbsp;Samples</div>
-      <div class="pill pill-model">pegasus-cnn</div>
-    </div>
-  </nav>
 
-  <!-- ═══════════ STAT BAR ═══════════ -->
-  <div class="stat-bar">
-    <div class="stat-card">
-      <div class="stat-icon si-p">🧠</div>
-      <div class="stat-info">
-        <div class="stat-title">What It Does</div>
-        <div class="stat-desc">Abstractive summarization of dialogues, stories and articles via fine-tuned PEGASUS.</div>
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5">
+        <div class="status-dot"></div>
+        <span class="text-[10px] font-black text-emerald-500 uppercase">System Online</span>
       </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon si-t">⚡</div>
-      <div class="stat-info">
-        <div class="stat-title">How It Works</div>
-        <div class="stat-desc">PEGASUS on SAMSum · Mistral AI generates inputs  &amp; evaluates quality live.</div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon si-e">🔧</div>
-      <div class="stat-info">
-        <div class="stat-title">Tech Stack</div>
-        <div class="stat-tags">
-          <span class="stag">PyTorch</span>
-          <span class="stag">HuggingFace</span>
-          <span class="stag">FastAPI</span>
-          <span class="stag">Mistral AI</span>
-          <span class="stag">Docker</span>
+      <div class="hidden md:flex gap-2">
+        <div class="bg-black/40 border border-white/5 px-3 py-1.5 rounded-lg text-[10px] font-bold text-zinc-400">
+          ROUGE-1: <span class="text-accent">0.44</span>
+        </div>
+        <div class="bg-black/40 border border-white/5 px-3 py-1.5 rounded-lg text-[10px] font-bold text-zinc-400">
+          SAMPLES: <span class="text-cyan">14.7K</span>
+        </div>
+        <div class="bg-cyan/10 border border-cyan/20 px-3 py-1.5 rounded-lg text-[10px] font-black text-cyan uppercase">
+          pegasus-samsum
         </div>
       </div>
     </div>
-  </div>
+  </header>
 
-  <!-- ═══════════ WORKSPACE ═══════════ -->
-  <div class="workspace">
-
-    <!-- INPUT PANE -->
-    <div class="pane">
-      <div class="pane-head">
-        <div class="ph-left">
-          <div class="status-dot sd-p"></div>
-          <div class="pane-label">Input</div>
-        </div>
-        <div class="pane-note">Paste freely or generate with AI</div>
+  <!-- 2. TECH STACK & INFO BAR -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 flex-shrink-0">
+    <div class="bg-panel glass-border p-4 rounded-2xl flex items-center gap-4">
+      <span class="text-2xl">🧠</span>
+      <div>
+        <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Logic</p>
+        <p class="text-xs font-medium text-zinc-200 leading-tight">Abstractive summarization on dialogue datasets.</p>
       </div>
-      <div class="pane-body">
-        <div class="gen-label">Generate with Mistral AI</div>
-        <div class="gen-grid">
-          <button class="gen-btn" onclick="gen('story',this)">📖 Story</button>
-          <button class="gen-btn" onclick="gen('dialogue',this)">💬 Dialogue</button>
-          <button class="gen-btn" onclick="gen('random',this)">🎲 Random</button>
+    </div>
+    <div class="bg-panel glass-border p-4 rounded-2xl flex items-center gap-4">
+      <span class="text-2xl">⚡</span>
+      <div>
+        <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Inference</p>
+        <p class="text-xs font-medium text-zinc-200 leading-tight">PEGASUS Architecture + Mistral AI Utilities.</p>
+      </div>
+    </div>
+    <div class="bg-panel glass-border p-4 rounded-2xl flex items-center gap-4">
+      <span class="text-2xl">🛠️</span>
+      <div class="flex flex-wrap gap-1.5">
+        <span class="text-[9px] font-bold px-2 py-0.5 bg-white/5 border border-white/10 rounded text-zinc-400">PyTorch</span>
+        <span class="text-[9px] font-bold px-2 py-0.5 bg-white/5 border border-white/10 rounded text-zinc-400">HuggingFace</span>
+        <span class="text-[9px] font-bold px-2 py-0.5 bg-white/5 border border-white/10 rounded text-zinc-400">FastAPI</span>
+        <span class="text-[9px] font-bold px-2 py-0.5 bg-white/5 border border-white/10 rounded text-zinc-400">Docker</span>
+        <span class="text-[9px] font-bold px-2 py-0.5 bg-white/5 border border-white/10 rounded text-zinc-400">Mistral AI</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. MAIN WORKSPACE (Flex-grow with min-h-0 to lock it in place) -->
+  <main class="flex-grow flex flex-col md:flex-row gap-4 min-h-0">
+    
+    <!-- LEFT: INPUT -->
+    <section class="flex-1 flex flex-col bg-panel glass-border rounded-[2rem] overflow-hidden">
+      <div class="p-4 border-b border-white/5 bg-white/5 flex items-center justify-between flex-shrink-0">
+        <h3 class="text-xs font-black uppercase tracking-widest text-zinc-400">Source Input</h3>
+        <div class="flex gap-2">
+          <button onclick="gen('story', this)" class="px-3 py-1.5 bg-black/50 border border-white/10 rounded-lg text-[10px] font-bold hover:bg-white/10 transition">Generate STORY</button>
+          <button onclick="gen('dialogue', this)" class="px-3 py-1.5 bg-black/50 border border-white/10 rounded-lg text-[10px] font-bold hover:bg-white/10 transition">Generate DIALOGUE</button>
+          <button onclick="gen('random', this)" class="px-3 py-1.5 bg-black/50 border border-white/10 rounded-lg text-[10px] font-bold hover:bg-white/10 transition">Generate RANDOM</button>
         </div>
-        <textarea id="inp" placeholder="Type or paste text here, or use a generator above…" oninput="uc()"></textarea>
-        <div class="input-foot">
-          <div class="char-c"><b id="cnt">0</b> chars</div>
-          <div class="cta-row">
-            <button class="btn-ghost" onclick="clr()">Clear</button>
-            <button class="btn-primary" id="goBtn" onclick="run()">Summarize →</button>
+      </div>
+      
+      <div class="flex-grow p-5 flex flex-col min-h-0">
+        <textarea id="inp" oninput="uc()" 
+          class="flex-grow w-full bg-black/50 rounded-2xl p-5 font-mono text-sm leading-relaxed input-focus border border-white/5 resize-none custom-scroll"
+          placeholder="Paste transcript here..."></textarea>
+        
+        <div class="flex items-center justify-between mt-4 flex-shrink-0">
+          <div class="text-[10px] font-mono text-zinc-600 uppercase">Chars: <span id="cnt" class="text-accent font-bold">0</span></div>
+          <div class="flex gap-3">
+            <button onclick="clr()" class="px-4 py-2 text-[10px] font-black text-zinc-500 hover:text-rose-500 transition">CLEAR</button>
+            <button id="goBtn" onclick="run()" class="btn-glow px-8 py-2.5 bg-white text-black rounded-xl text-[11px] font-black uppercase tracking-widest transition-all">
+              Summarize →
+            </button>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- OUTPUT PANE -->
-    <div class="pane">
-      <div class="pane-head">
-        <div class="ph-left">
-          <div class="status-dot sd-t"></div>
-          <div class="pane-label">Output</div>
-        </div>
-        <div class="pane-note">PEGASUS model prediction</div>
+    <!-- RIGHT: OUTPUT -->
+    <section class="flex-1 flex flex-col bg-panel glass-border rounded-[2rem] overflow-hidden">
+      <div class="p-4 border-b border-white/5 bg-white/5 flex items-center justify-between flex-shrink-0">
+        <h3 class="text-xs font-black uppercase tracking-widest text-zinc-400">Result Engine</h3>
+        <button id="cpBtn" onclick="cp()" class="hidden px-4 py-1.5 bg-accent text-white rounded-lg text-[10px] font-black uppercase">Copy</button>
       </div>
-      <div class="pane-body">
-        <div class="out-box" id="oBox">
-          <div class="out-ph" id="oPh">Summary will appear here…</div>
-          <p class="out-text" id="oTxt"></p>
-          <button class="copy-btn" id="cpBtn" onclick="cp()">📋 Copy</button>
+      
+      <div class="flex-grow p-5 flex flex-col min-h-0">
+        <div id="oBox" class="flex-grow bg-black/50 rounded-2xl p-6 border border-white/5 relative overflow-hidden flex flex-col">
+          <div id="oPh" class="absolute inset-0 flex items-center justify-center text-zinc-700 italic text-sm p-10 text-center">
+            Waiting for neural synthesis...
+          </div>
+          <div id="oScrollWrap" class="flex-grow overflow-y-auto custom-scroll hidden">
+            <p id="oTxt" class="text-white text-[15px] leading-relaxed font-medium"></p>
+            
+            <div id="chips" class="mt-6 flex gap-2">
+              <span class="px-2 py-1 bg-white/5 border border-white/10 text-[9px] font-bold text-zinc-500 rounded uppercase">Abstractive</span>
+              <span class="px-2 py-1 bg-white/5 border border-white/10 text-[9px] font-bold text-zinc-500 rounded uppercase">Beam-2</span>
+            </div>
+          </div>
         </div>
-        <div class="chips" id="chips">
-          <div class="chip">Abstractive</div>
-          <div class="chip">PEGASUS</div>
-          <div class="chip">Beam · 2</div>
-        </div>
-        <button class="btn-eval" id="evBtn" onclick="ev()">Evaluate with Mistral AI</button>
-        <div class="eval-result" id="evBox">
-          <div class="eval-label">Mistral AI Evaluation</div>
-          <div class="eval-body" id="evTxt"></div>
-        </div>
-      </div>
-    </div>
 
+        <!-- Eval Area -->
+        <div class="flex-shrink-0">
+          <button id="evBtn" onclick="ev()" class="hidden mt-4 w-full py-3 border border-accent/30 bg-accent/5 text-accent rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-accent hover:text-white transition">
+            Run Mistral Evaluation
+          </button>
+          
+          <div id="evBox" class="hidden mt-4 p-4 rounded-xl bg-zinc-900 border border-white/5 max-h-32 overflow-y-auto custom-scroll">
+            <p class="text-[9px] font-black text-accent uppercase mb-1 flex items-center gap-2">
+              <span class="w-1.5 h-1.5 bg-accent rounded-full"></span> Mistral Feedback
+            </p>
+            <p id="evTxt" class="text-[11px] text-zinc-400 leading-relaxed italic"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 4. FOOTER STATUS BAR -->
+  <footer class="flex items-center justify-between px-2 flex-shrink-0 text-[10px] font-bold text-zinc-600">
+    <div class="flex gap-6 uppercase tracking-tighter">
+      <span>Model: PEGASUS-Large-SAMSum</span>
+      <span>API: Fast-API (0.0.0.0:8080)</span>
+      <span class="text-zinc-500">v2.1.0-Stable</span>
+    </div>
+    <div class="hidden sm:block">
+      PRESS <kbd class="bg-white/5 border border-white/10 px-1 rounded text-zinc-400">CTRL + ENTER</kbd> TO EXECUTE
+    </div>
+  </footer>
+
+  <!-- Notification -->
+  <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 translate-y-20 px-8 py-3 bg-white text-black font-black text-[10px] rounded-full shadow-2xl transition-all duration-500 z-50 pointer-events-none uppercase">
+    Copied to Clipboard
   </div>
 
-  <!-- ═══════════ STATUS BAR ═══════════ -->
-  <div class="status-bar">
-    <div class="sb-left">
-      <div class="sb-item">
-        <div class="sb-dot sb-dot-p"></div>
-        <span>PEGASUS · pegasus-cnn_dailymail</span>
-      </div>
-      <div class="sb-item">
-        <div class="sb-dot sb-dot-t"></div>
-        <span>Mistral · mistral-small-latest</span>
-      </div>
-      <div class="sb-item">
-        <div class="sb-dot sb-dot-e"></div>
-        <span>FastAPI · 0.0.0.0:8080</span>
-      </div>
-    </div>
-    <div class="sb-right">
-      <span>Summarize with</span>
-      <span class="kb">Ctrl</span>
-      <span>+</span>
-      <span class="kb">Enter</span>
-    </div>
-  </div>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    function uc() { $('cnt').textContent = $('inp').value.length; }
 
-</div>
-
-<div class="toast" id="toast">Copied to clipboard</div>
-
-<script>
-  const $ = id => document.getElementById(id);
-
-  async function gen(t, btn) {
-    const orig = btn.innerHTML;
-    btn.innerHTML = `<span class="spin"></span>`;
-    btn.style.pointerEvents = 'none';
-    try {
-      const r = await fetch('/generate', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({type:t}) });
-      const d = await r.json();
-      if (d.text) { $('inp').value = d.text; uc(); }
-    } catch(e) { console.error(e); }
-    finally { btn.innerHTML = orig; btn.style.pointerEvents = 'auto'; }
-  }
-
-  function uc() { $('cnt').textContent = $('inp').value.length; }
-
-  async function run() {
-    const text = $('inp').value.trim();
-    if (!text) return;
-
-    const btn=$('goBtn'), ob=$('oBox'), ot=$('oTxt'), ph=$('oPh'), chips=$('chips'), cb=$('cpBtn');
-    btn.classList.add('ld'); btn.innerHTML = '<span class="spin"></span> Processing…';
-    ph.style.display = 'block'; ph.textContent = '⏳ Generating summary…'; ph.style.color = '';
-    ot.classList.remove('show'); chips.classList.remove('show'); cb.classList.remove('show');
-    ob.classList.remove('live'); $('evBtn').classList.remove('show'); $('evBox').classList.remove('show');
-
-    try {
-      const r = await fetch(`/predict?text=${encodeURIComponent(text)}`, { method:'POST', headers:{'accept':'application/json'} });
-      if (!r.ok) throw new Error();
-      const d = await r.json();
-      ph.style.display = 'none';
-      ot.textContent = d.summary || d;
-      ot.classList.add('show'); ob.classList.add('live');
-      chips.classList.add('show'); cb.classList.add('show');
-      $('evBtn').classList.add('show');
-    } catch(e) {
-      ph.textContent = '⚠ Error: Could not connect to API.'; ph.style.color = 'var(--rose)';
-    } finally {
-      btn.classList.remove('ld'); btn.innerHTML = 'Summarize →';
+    async function gen(t, btn) {
+      const orig = btn.innerText;
+      btn.innerText = '...';
+      try {
+        const r = await fetch('/generate', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({type:t}) });
+        const d = await r.json();
+        if (d.text) { $('inp').value = d.text; uc(); }
+      } catch(e) { console.error(e); }
+      finally { btn.innerText = orig; }
     }
-  }
 
-  async function ev() {
-    const text=$('inp').value.trim(), summary=$('oTxt').textContent.trim();
-    if (!text || !summary) return;
-    const btn=$('evBtn'), eb=$('evBox'), et=$('evTxt');
-    btn.innerHTML = '<span class="spin"></span> Evaluating…'; btn.style.pointerEvents='none';
-    eb.classList.add('show'); et.textContent = 'Analyzing…';
-    try {
-      const r = await fetch('/evaluate', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({original_text:text, summary}) });
-      const d = await r.json();
-      et.textContent = d.evaluation || 'No evaluation.';
-    } catch(e) { et.textContent = 'Error connecting to API.'; }
-    finally { btn.innerHTML = 'Evaluate with Mistral AI'; btn.style.pointerEvents='auto'; }
-  }
+    async function run() {
+      const text = $('inp').value.trim();
+      if (!text) return;
 
-  function clr() {
-    $('inp').value=''; $('cnt').textContent='0';
-    const ph=$('oPh'); ph.style.display='block'; ph.textContent='Summary will appear here…'; ph.style.color='';
-    $('oTxt').classList.remove('show'); $('chips').classList.remove('show');
-    $('cpBtn').classList.remove('show'); $('oBox').classList.remove('live');
-    $('evBtn').classList.remove('show'); $('evBox').classList.remove('show');
-  }
+      const btn = $('goBtn');
+      btn.disabled = true;
+      btn.innerText = 'PROCESSING...';
+      
+      $('oPh').innerText = 'Synthesizing...';
+      $('oScrollWrap').classList.add('hidden');
+      $('cpBtn').classList.add('hidden');
+      $('evBtn').classList.add('hidden');
+      $('evBox').classList.add('hidden');
 
-  function cp() {
-    navigator.clipboard.writeText($('oTxt').textContent).then(() => {
-      const t=$('toast'); t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 1600);
+      try {
+        const r = await fetch(`/predict?text=${encodeURIComponent(text)}`, { method:'POST' });
+        const d = await r.json();
+        
+        $('oPh').classList.add('hidden');
+        $('oScrollWrap').classList.remove('hidden');
+        $('oTxt').textContent = d.summary || d;
+        $('cpBtn').classList.remove('hidden');
+        $('evBtn').classList.remove('hidden');
+      } catch (e) {
+        $('oPh').innerHTML = '<span class="text-rose-500">API Connection Failed</span>';
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Summarize →';
+      }
+    }
+
+    async function ev() {
+      const btn = $('evBtn');
+      btn.disabled = true;
+      btn.innerText = 'EVALUATING...';
+      $('evBox').classList.remove('hidden');
+      $('evTxt').textContent = 'Generating Mistral metrics...';
+
+      try {
+        const r = await fetch('/evaluate', { 
+            method:'POST', 
+            headers:{'Content-Type':'application/json'}, 
+            body: JSON.stringify({original_text: $('inp').value, summary: $('oTxt').textContent}) 
+        });
+        const d = await r.json();
+        $('evTxt').textContent = d.evaluation || 'Analysis complete.';
+      } catch(e) {
+        $('evTxt').textContent = 'Error connecting to evaluation engine.';
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Run Mistral Evaluation';
+      }
+    }
+
+    function cp() {
+      navigator.clipboard.writeText($('oTxt').textContent).then(() => {
+        const t = $('toast');
+        t.classList.remove('translate-y-20');
+        setTimeout(() => t.classList.add('translate-y-20'), 2000);
+      });
+    }
+
+    function clr() {
+        $('inp').value = ''; uc();
+        $('oPh').classList.remove('hidden');
+        $('oPh').innerText = 'Waiting for neural synthesis...';
+        $('oScrollWrap').classList.add('hidden');
+        $('cpBtn').classList.add('hidden');
+        $('evBtn').classList.add('hidden');
+        $('evBox').classList.add('hidden');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') run();
     });
-  }
-
-  document.addEventListener('keydown', e => { if ((e.ctrlKey||e.metaKey) && e.key==='Enter') run(); });
-</script>
+  </script>
 </body>
 </html>
