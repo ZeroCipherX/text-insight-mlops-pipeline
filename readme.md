@@ -6,7 +6,7 @@
 
 ## What It Does
 
-Takes a dialogue or story, runs it through a PEGASUS transformer fine-tuned on 14.7K real conversations, and returns a concise abstractive summary. Mistral AI generates test inputs on-demand and evaluates summary quality in real-time — no manual test data needed.
+Takes a dialogue or story, runs it through a PEGASUS transformer fine-tuned on 14.7K real conversations, and returns a concise abstractive summary. Mistral AI generates test inputs on-demand and evaluates summary quality in real-time, no manual test data needed.
 
 ---
 
