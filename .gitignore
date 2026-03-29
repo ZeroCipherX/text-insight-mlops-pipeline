@@ -1,4 +1,3 @@
-@"
 .env
 venv/
 artifacts/
@@ -9,4 +8,4 @@ mlflow.db
 __pycache__/
 *.pyc
 *.pyo
-"@ | Out-File -FilePath .gitignore -Encoding utf8 -NoNewline
+artifacts/*

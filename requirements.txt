@@ -1,2 +1,28 @@
-ensure
+# Web Framework
+fastapi
+uvicorn[standard]
+jinja2
+httpx
+pydantic
+
+# ML / Model
+transformers
+torch
+datasets
+sentencepiece
+
+# Evaluation
+evaluate
+rouge-score
+nltk
+
+# Data / Utils
+pandas
+tqdm
+python-dotenv
 python-box
+ensure
+PyYAML
+
+# Notebook support (optional, for research/)
+notebook
