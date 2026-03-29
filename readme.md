@@ -1,4 +1,4 @@
-# NeuralBrief — Text Insight MLOps Pipeline
+# NeuralBrief -> Text Insight MLOps Pipeline
 
 > Fine-tuned PEGASUS on SAMSum · Mistral AI integration · End-to-end MLOps from raw data to live inference
 
@@ -7,6 +7,8 @@
 ## What It Does
 
 Takes a dialogue or story, runs it through a PEGASUS transformer fine-tuned on 14.7K real conversations, and returns a concise abstractive summary. Mistral AI generates test inputs on-demand and evaluates summary quality in real-time — no manual test data needed.
+
+---
 
 **ROUGE-1: 0.44 · ROUGE-2: 0.23 · Dataset: SAMSum (14.7K samples)**
 
