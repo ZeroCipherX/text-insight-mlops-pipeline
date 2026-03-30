@@ -7,7 +7,10 @@ class PredictionPipeline:
     def __init__(self):
         self.config = ConfigurationManager().get_model_evaluation_config()
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.tokenizer = AutoTokenizer.from_pretrained(self.config.tokenizer_path)
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            self.config.tokenizer_path,
+            subfolder="tokenizer"
+        )
         self.model = AutoModelForSeq2SeqLM.from_pretrained(
             self.config.model_path
         ).to(self.device)

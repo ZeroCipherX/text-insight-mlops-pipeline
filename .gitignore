@@ -9,3 +9,11 @@ __pycache__/
 *.pyc
 *.pyo
 artifacts/*
+
+venv/
+__pycache__/
+artifacts/
+research/
+.env
+.DS_Store
+*.pyc
